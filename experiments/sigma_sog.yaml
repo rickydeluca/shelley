@@ -1,0 +1,40 @@
+NAME: sigma
+DEVICE: cpu
+SEED: 42
+TRAIN_MODE: sog
+
+DATA:
+  NAME: ppi
+  TYPE: semi-synth
+  SIZE: 100
+  SOURCE_NET: data/ppi/ppi.txt
+  TRAIN_RATIO: [0.8]
+  NOISE_LEVEL: [0.0, 0.05, 0.1, 0.2, 0.25]
+  NOISE_MODE: [add]
+  PERMUTE: False
+
+FEAT_INIT:
+  NAME: shared
+  FEATURE_DIM: 1
+
+FEAT_REFINE:
+  NAME: gine
+  IN_CHANNELS: 1
+  DIM: 512
+  OUT_CHANNELS: 512
+  NUM_CONV_LAYERS: 3
+
+MATCHING:
+  NAME: sigma
+  N_SINK_ITERS: 10
+  N_SAMPLES: 10
+  TAU: 1.0
+  T: 5
+  MISS_MATCH_VALUE: 0.01
+
+TRAIN:
+  OPTIMIZER: adam
+  LR: 1.e-4
+  L2NORM: 1.e-4
+  EPOCHS: 100
+  PATIENCE: 10

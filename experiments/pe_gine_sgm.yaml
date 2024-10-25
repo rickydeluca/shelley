@@ -1,0 +1,47 @@
+NAME: pe_gine_sgm
+DEVICE: cuda
+SEED: 42
+TRAIN_MODE: son
+
+DATA:
+  NAME: ppi
+  TYPE: semi-synth
+  SIZE: 5
+  SOURCE_NET: data/ppi/ppi.txt
+  TRAIN_RATIO: [0.8]
+  NOISE_LEVEL: [0.0]
+  NOISE_MODE: [add, rm]
+  PERMUTE: True
+
+FEAT_INIT:
+  NAME: paleemb
+  CUDA: True
+  NEG_SAMPLE_SIZE: 10 
+  EMBEDDING_DIM: 256
+  EMBEDDING_NAME: ''
+
+  OPTIMIZER: Adam
+  LR: 0.01
+  BATCH_SIZE: 512
+  EPOCHS: 100
+  
+FEAT_REFINE:
+  NAME: gine
+  IN_CHANNELS: 256
+  DIM: 512
+  OUT_CHANNELS: 512
+  NUM_CONV_LAYERS: 3
+
+MATCHING:
+  NAME: sgm
+  N_SINK_ITERS: 10
+  BETA: 0.1
+  TAU: 1
+  MASK: True
+
+TRAIN:
+  OPTIMIZER: adam
+  LR: 1.e-4
+  L2NORM: 1.e-4
+  EPOCHS: 100
+  PATIENCE: 10

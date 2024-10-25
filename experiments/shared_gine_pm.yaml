@@ -1,0 +1,38 @@
+NAME: shared_gine_pm
+DEVICE: cuda
+SEED: 42
+TRAIN_MODE: son
+
+DATA:
+  NAME: ppi
+  TYPE: semi-synth
+  SIZE: 5
+  SOURCE_NET: data/ppi/ppi.txt
+  TRAIN_RATIO: [0.2, 0.8]
+  NOISE_LEVEL: [0.0, 0.05, 0.1, 0.2, 0.25]
+  NOISE_MODE: [add, rm]
+  PERMUTE: False
+
+FEAT_INIT:
+  NAME: shared
+  FEATURE_DIM: 1
+
+FEAT_REFINE:
+  NAME: gine
+  IN_CHANNELS: 1
+  DIM: 256
+  OUT_CHANNELS: 256
+  NUM_CONV_LAYERS: 2
+
+MATCHING:
+  NAME: palemap
+  NUM_LAYERS: 1
+  ACTIVATE_FUNCTION: sigmoid 
+  EMBEDDING_DIM: 256
+
+TRAIN:
+  OPTIMIZER: adam
+  LR: 1.e-4
+  L2NORM: 1.e-4
+  EPOCHS: 100
+  PATIENCE: 10
